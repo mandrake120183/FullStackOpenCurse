@@ -1,5 +1,6 @@
 const Header = ({ name }) => {
     return(
+        console.log(name),
         <h1>{name}</h1>
     )
 }
@@ -33,7 +34,7 @@ const Course = ({ course }) => {
             <Header name="Web development curriculum" />
             {course.map(course =>
                 <div key={course.id}>
-                    <Header course={course.name} />
+                    <Header name={course.name} />
                     <Content parts={course.parts} />
                     <Total parts={course.parts} />
                 </div>
