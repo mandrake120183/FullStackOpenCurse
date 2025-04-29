@@ -18,6 +18,26 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+    if (persons.some(person => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+    if (newName === '') {
+      alert('Please enter a name')
+      return
+    }
+    if (newName.length < 3) {
+      alert('Name must be at least 3 characters long')
+      return
+    }
+    if (persons.length >= 10) {
+      alert('Phonebook is full')
+      return
+    }
+    if (persons.some(person => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
     const personObject = {
       name: newName
     }
@@ -27,15 +47,6 @@ const App = () => {
   
   const handleNameChange = (event) => {
     setNewName(event.target.value)
-  }
-  
-  const handleSubmit = (event, newName, setNewName, persons, setPersons) => {
-    event.preventDefault()
-    const personObject = {
-      name: newName
-    }
-    setPersons(persons.concat(personObject))
-    setNewName('')
   }
   
   return (
