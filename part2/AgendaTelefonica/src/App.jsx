@@ -6,21 +6,27 @@ const person = {
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([0]) 
+  const [persons, setPersons] = useState([person]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState(0)
+  const [newFilter, setNewFilter] = useState('')
+  const [showAll, setShowAll] = useState(true)
 
   const Phonebook = ({ persons }) => {
     return (
       <div>
         {persons.map((person, index) => (
           <p key={index}>{person.name} {person.number}</p>
-          
         ))}
       </div>
     )
   }
-
+  const limpiaCampos = () => {
+    setNewName('')
+    setNewNumber(0)
+    setNewFilter('')
+    console.log('limpiaCampos', newName, newNumber, newFilter)
+  }
   const addPerson = (event) => {
     event.preventDefault()
     if (persons.some(person => person.name === newName && person.number === newNumber)) {
@@ -29,33 +35,42 @@ const App = () => {
     }
     if (newName === '') {
       alert('Please enter a name')
+      limpiaCampos()
       return
     }
     if (newName.length < 3) {
       alert('Name must be at least 3 characters long')
+      limpiaCampos()
       return
     }
     if (persons.length >= 10) {
       alert('Phonebook is full')
+      limpiaCampos()
       return
     }
     if (persons.some(person => person.name === newName)) {
       alert(`${newName} is already added to phonebook`)
+      limpiaCampos()
       return
     }
     if (persons.some(person => person.number === newNumber)) {
       alert(`${newNumber} is already added to phonebook`)
+      limpiaCampos()
       return
     }
     if (newNumber === ''){
       alert('Please enter a number')
+      limpiaCampos()
+      return
     }
     if (newNumber.length < 8){
       alert('Number must be at least 8 characters long')
+      limpiaCampos()
       return
     }
     if (isNaN(newNumber)){
       alert('Please enter a valid numbr')
+      limpiaCampos()
       return
     }
 
@@ -63,8 +78,8 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    setPersons(persons.concat(personObject))
-    setNewName('')
+    setPersons(persons.concat(personObject))     
+    limpiaCampos()
   }
   
   const handleNameChange = (event) => {
@@ -75,9 +90,33 @@ const App = () => {
     setNewNumber(event.target.value)
   }
   
+  const handleFilterChange = (event) => {
+    setNewFilter(event.target.value)
+  } 
+
+  const handleShowAll = (event) => {
+    event.preventDefault()
+    if (showAll) {
+      setShowAll(false)
+    } else {
+      setShowAll(true)
+    }
+    console.log('showAll', showAll)
+  }
+  
+  const personstoShow = showAll
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+          filter shown with <input onChange={handleFilterChange}/>
+          <button onClick={handleShowAll}>
+            show {showAll ? 'all' : 'Filtered'}
+          </button>
+      </div>
       <form onSubmit={addPerson}>
         <div>
           name: <input onChange={handleNameChange}/>
@@ -89,7 +128,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        <Phonebook persons={persons} />
+        <Phonebook persons={personstoShow} />
       </div>
       ...
     </div>
