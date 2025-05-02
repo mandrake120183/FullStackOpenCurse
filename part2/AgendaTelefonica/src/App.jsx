@@ -5,6 +5,7 @@ const person = {
   number: '040-123456'
 }
 
+
 const App = () => {
   const [persons, setPersons] = useState([person]) 
   const [newName, setNewName] = useState('')
@@ -21,12 +22,7 @@ const App = () => {
       </div>
     )
   }
-  const limpiaCampos = () => {
-    setNewName('')
-    setNewNumber(0)
-    setNewFilter('')
-    console.log('limpiaCampos', newName, newNumber, newFilter)
-  }
+ 
   const addPerson = (event) => {
     event.preventDefault()
     if (persons.some(person => person.name === newName && person.number === newNumber)) {
@@ -35,42 +31,34 @@ const App = () => {
     }
     if (newName === '') {
       alert('Please enter a name')
-      limpiaCampos()
       return
     }
     if (newName.length < 3) {
       alert('Name must be at least 3 characters long')
-      limpiaCampos()
       return
     }
     if (persons.length >= 10) {
       alert('Phonebook is full')
-      limpiaCampos()
       return
     }
     if (persons.some(person => person.name === newName)) {
       alert(`${newName} is already added to phonebook`)
-      limpiaCampos()
       return
     }
     if (persons.some(person => person.number === newNumber)) {
       alert(`${newNumber} is already added to phonebook`)
-      limpiaCampos()
       return
     }
     if (newNumber === ''){
       alert('Please enter a number')
-      limpiaCampos()
       return
     }
     if (newNumber.length < 8){
       alert('Number must be at least 8 characters long')
-      limpiaCampos()
       return
     }
     if (isNaN(newNumber)){
       alert('Please enter a valid numbr')
-      limpiaCampos()
       return
     }
 
@@ -79,7 +67,6 @@ const App = () => {
       number: newNumber
     }
     setPersons(persons.concat(personObject))     
-    limpiaCampos()
   }
   
   const handleNameChange = (event) => {
