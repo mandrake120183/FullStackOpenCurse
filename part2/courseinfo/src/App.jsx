@@ -6,6 +6,10 @@ const App = (props) => {
   const [newNote, setNewNote] = useState('')
   const [showAll, setShowAll] = useState(true)
 
+  const toggleImportanceOf = (id) => {
+    console.log
+  }
+
   const addNote = (event) => {
     event.preventDefault()
     const noteObject = {
@@ -24,6 +28,17 @@ const App = (props) => {
   }
   
   const notesToShow = showAll ? notes : notes.filter(note => note.important === true)
+
+const Note = ({ note, toggleImportancee }) => {
+  const label = note.important ? 'make not important' : 'make important'
+  return (
+    <li>
+      {note.content}
+   
+      <button onClick={toggleImportancee}>{label}</button>
+    </li>
+  )
+}
 
   return (
     <div>
