@@ -1,17 +1,24 @@
-import { useState } from 'react'
-
-const person = {
-  name: 'Arto Hellas',
-  number: '040-123456'
-}
-
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const App = () => {
-  const [persons, setPersons] = useState([person]) 
+  const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState(0)
   const [newFilter, setNewFilter] = useState('')
   const [showAll, setShowAll] = useState(true)
+  
+const hook = () => {
+  console.log('effect')
+  axios
+    .get('http://localhost:3001/persons')
+    .then(response => {
+      console.log('promise fulfilled')
+      setPersons(response.data)
+    })
+} 
+
+useEffect(hook, [])
 
   const Phonebook = ({ persons }) => {
     return (
