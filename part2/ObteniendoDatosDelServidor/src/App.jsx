@@ -17,6 +17,10 @@ const App = (props) => {
         .then(returnedNote => {
           setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
+      .catch(error =>{
+        alert(`the note '${note.content}' was already deleted from server`)
+        setNotes(notes.filter(n => n.id !== id))
+      })
     }
 
   const hook =() =>{
@@ -26,6 +30,9 @@ const App = (props) => {
       .then(initialNotes =>{
         console.log('promise fulfilled')
         setNotes(initialNotes)
+      })
+      .catch(error => {
+        console.error('Error fetching notes:', error)
       })
   }
 
@@ -42,6 +49,9 @@ console.log('render', notes.length, 'notes')
     noteService.create(noteObject)
       .then(returnedNota => {
         setNotes(notes.concat(returnedNota))
+      })
+      .catch(error => {
+        console.error('Error creating note:', error)
       })
     setNotes(notes.concat(noteObject))
   }
